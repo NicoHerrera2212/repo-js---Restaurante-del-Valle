@@ -1,113 +1,73 @@
-let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+document.addEventListener("DOMContentLoaded", async () => {
+    const form = document.getElementById("reservaForm");
+    const mensajeError = document.getElementById("mensajeError");
 
-function confirmarReserva(tipo, cantidad, horario) {
-  const nuevaReserva = { tipo, cantidad, horario };
-  reservas.push(nuevaReserva);
-  localStorage.setItem("reservas", JSON.stringify(reservas));
-  mostrarResumen(nuevaReserva);
-  mostrarReservas();
-}
+    flatpickr("#fecha", {
+        minDate: "today",
+        dateFormat: "d-m-Y",
+        locale: "es",
+    });
 
-function mostrarResumen(reserva) {
-  const div = document.getElementById("resumenReserva");
-  div.textContent = `Reserva confirmada: ${reserva.cantidad} personas para ${reserva.tipo} a las ${reserva.horario}`;
-  div.className = "mensaje-ok";
-  console.log("Reserva confirmada:", reserva);
-}
 
-function mostrarError(mensaje) {
-  const div = document.getElementById("resumenReserva");
-  div.textContent = mensaje;
-  div.className = "mensaje-error";
-}
+    try {
+        const response = await fetch("./json/data.json");
+        if (!response.ok) throw new Error("Error al cargar datos del servidor.");
+        const data = await response.json();
+        reservas = [...data];
+    } catch (error) {
+        console.error(error);
+        Toastify({
+            text: "No se pudieron cargar datos iniciales.",
+            backgroundColor: "red",
+            duration: 3000
+        }).showToast();
+    } finally {
+        cargarDesdeLocalStorage();
+        mostrarReservas();
+    }
 
-function mostrarReservas(lista = reservas) {
-  const ul = document.getElementById("listaReservas");
-  ul.innerHTML = "";
-  lista.forEach((reserva, index) => {
-    const li = document.createElement("li");
-    li.textContent = `${index + 1}. ${reserva.tipo} - ${reserva.cantidad} personas - ${reserva.horario}`;
-    ul.appendChild(li);
-  });
-  document.getElementById("contadorReservas").textContent = `Total de reservas: ${lista.length}`;
-}
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        mensajeError.textContent = "";
 
-function validarHorarioPorTipo(tipo, horario) {
-  const [hora, minutos] = horario.split(":").map(Number);
-  const horaDecimal = hora + minutos / 60;
+        const nombre = document.getElementById("nombre").value.trim();
+        const personas = parseInt(document.getElementById("personas").value);
+        const turno = document.getElementById("turno").value;
+        const hora = document.getElementById("hora").value;
+        const fecha = document.getElementById("fecha").value;
 
-  if (tipo === "almorzar") {
-    return horaDecimal >= 12 && horaDecimal <= 14;
-  } else if (tipo === "cenar") {
-    return horaDecimal >= 21 && horaDecimal <= 23;
-  } else {
-    return false;
-  }
-}
+        if (!fecha) {
+            mensajeError.textContent = "Por favor seleccioná una fecha válida.";
+            return;
+        }
 
-document.getElementById("formReserva").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const tipo = document.getElementById("tipoComida").value;
-  const cantidad = parseInt(document.getElementById("cantidad").value);
-  const horario = document.getElementById("horario").value.trim();
+        if (!formatoHoraValido(hora)) {
+            mensajeError.textContent = "Formato de hora inválido. Usa HH:MM.";
+            return;
+        }
 
-  if (horario === "" || isNaN(cantidad) || cantidad <= 0) {
-    mostrarError("Por favor ingresá un horario válido y una cantidad de personas mayor a 0.");
-    return;
-  }
+        if (!validarHora(turno, hora)) {
+            mensajeError.textContent = "Hora fuera del rango permitido para el turno (12:00 - 14:00hs / 21:00 - 23:00 hs).";
+            return;
+        }
 
-  if (!validarHorarioPorTipo(tipo, horario)) {
-    mostrarError(`Horario inválido para ${tipo}. Almuerzo: 12:00 a 14:00 hs. Cena: 21:00 a 23:00 hs.`);
-    return;
-  }
+        const reserva = {
+            id: Date.now(),
+            nombre,
+            personas,
+            turno,
+            hora,
+            fecha
+        };
 
-  confirmarReserva(tipo, cantidad, horario);
+        agregarReserva(reserva);
+
+        Toastify({
+            text: "Reserva agregada correctamente",
+            backgroundColor: "green",
+            duration: 3000
+        }).showToast();
+
+        form.reset();
+    });
 });
-
-document.getElementById("vaciarReservas").addEventListener("click", () => {
-  reservas = [];
-  localStorage.removeItem("reservas");
-  mostrarReservas();
-  const div = document.getElementById("resumenReserva");
-  div.textContent = "";
-  div.className = "";
-});
-
-document.getElementById("mostrarAlmuerzos").addEventListener("click", () => {
-  const almuerzos = reservas.filter(r => r.tipo === "almorzar");
-  mostrarReservas(almuerzos);
-});
-
-document.getElementById("mostrarCenas").addEventListener("click", () => {
-  const cenas = reservas.filter(r => r.tipo === "cenar");
-  mostrarReservas(cenas);
-});
-
-document.getElementById("buscarPorHorario").addEventListener("click", () => {
-  const horarioBuscado = document.getElementById("buscarHorario").value.trim();
-  const resultado = reservas.find(r => r.horario === horarioBuscado);
-
-  if (resultado) {
-    mostrarResumen(resultado);
-  } else {
-    mostrarError("No se encontró ninguna reserva para ese horario.");
-  }
-});
-
-document.getElementById("eliminarPorHorario").addEventListener("click", () => {
-  const horarioEliminar = document.getElementById("eliminarHorario").value.trim();
-  const index = reservas.findIndex(r => r.horario === horarioEliminar);
-
-  if (index !== -1) {
-    reservas.splice(index, 1);
-    localStorage.setItem("reservas", JSON.stringify(reservas));
-    mostrarReservas();
-    const div = document.getElementById("resumenReserva");
-    div.textContent = `Reserva de las ${horarioEliminar} eliminada.`;
-    div.className = "mensaje-ok";
-  } else {
-    mostrarError(`No se encontró reserva para ${horarioEliminar}.`);
-  }
-});
-
-mostrarReservas();

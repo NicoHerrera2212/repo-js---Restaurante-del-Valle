@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Reservas Restaurante del Valle</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/style.css">
-  <script defer src="./js/main.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas - Restaurante del Valle</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script defer src="./js/reservas.js"></script>
+    <script defer src="./js/main.js"></script>
+    <!-- Librería Toastify -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
 </head>
 <body>
-  <h1>Reservas - Restaurante del Valle</h1>
-  <p>Vení a disfutar del Valle de Uco en Mendoza</p>
+    <header>
+        <section id="banner">
+            <h1>RESTAURANTE DEL VALLE</h1>
+            <p>Disfrute en familia de una gran experiencia en el Valle de Uco.</p>
+            <p>Mendoza - Argentina</p>
+        </section>
+    </header>
 
-  <form id="formReserva">
-    <label for="tipoComida">Tipo de comida:</label>
-    <select id="tipoComida">
-      <option value="almorzar">Almuerzo</option>
-      <option value="cenar">Cena</option>
-    </select>
+    <main>
+        <section id="form-reserva">
+            <h2>Complete el formulario para registrar su reserva:</h2>
+            <form id="reservaForm">
+                <input type="text" id="nombre" placeholder="Nombre" required>
+                <input type="number" id="personas" placeholder="Cantidad de personas" min="1" required>
+                <input type="text" id="fecha" placeholder="Seleccioná la fecha" required>
+                <select id="turno" required>
+                    <option value="">Seleccionar turno</option>
+                    <option value="almuerzo">Almuerzo</option>
+                    <option value="cena">Cena</option>
+                </select>
+                <input type="time" id="hora" required>
+                <button type="submit">Reservar</button>
+            </form>
+            <div id="mensajeError" class="error"></div>
+        </section>
 
-    <label for="cantidad">Cantidad de personas:</label>
-    <input type="number" id="cantidad" required>
+        <section id="lista-reservas">
+            <h2>Listado de Reservas</h2>
+            <div id="reservasContainer"></div>
+        </section>
+    </main>
 
-    <label for="horario">Horario deseado (ej: 13:00):</label>
-    <input type="text" id="horario" required>
-
-    <button type="submit">Confirmar reserva</button>
-  </form>
-
-  <div id="resumenReserva"></div>
-
-  <h2>Reservas Realizadas</h2>
-  <button id="mostrarAlmuerzos">Mostrar solo almuerzos</button>
-  <button id="mostrarCenas">Mostrar solo cenas</button>
-  <button id="buscarPorHorario">Buscar por horario</button>
-  <input type="text" id="buscarHorario" placeholder="Ej: 13:00">
-
-  <button id="eliminarPorHorario">Eliminar por horario</button>
-  <input type="text" id="eliminarHorario" placeholder="Ej: 13:00">
-
-  <ul id="listaReservas"></ul>
-  <p id="contadorReservas"></p>
-
-  <button id="vaciarReservas">Vaciar reservas</button>
+    <footer>
+        <p>&copy; 2025 Restaurante del Valle. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

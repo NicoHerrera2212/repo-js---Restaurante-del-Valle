@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nombre": "Rafael",
+        "personas": 2,
+        "fecha": "d-m-Y",
+        "turno": "almuerzo",
+        "hora": "12:30"
+    },
+    {
+        "id": 2,
+        "nombre": "Sandra",
+        "personas": 4,
+        "fecha": "d-m-Y",
+        "turno": "cena",
+        "hora": "21:15"
+    }
+]

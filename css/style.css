@@ -1,70 +1,91 @@
 body {
-  font-family: sans-serif;
-  background: #f0f4f8;
-  padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f3f0ca;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
 }
 
-h1, h2 {
-  color: #333;
+h1 {
+    color: #050505;
+}
+
+#banner {
+    height: 30vh;
+    background-size: contain;
+}
+
+#banner h1 p {
+    font-size: 300%;
+    margin: 10px;
+}
+
+#banner {
+    background-color: #d9e9f5;
+    background-image: url(../../img/restaurante.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: aliceblue;
+    text-align: center;
+    height: 60vh;
+    padding: 1rem;
+}
+
+#banner h1 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    font-size: clamp(1rem, 4vw, 6rem);
+    margin: 50px;
+}
+
+#banner p {
+    font-style: italic;
+    font-size: 120%;
+}
+
+#form-reserva {
+    font-style: normal;
+    font-size: 90%;
 }
 
 form {
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: auto;
 }
 
-label, input, select {
-  display: block;
-  margin: 10px 0;
-}
-
+input,
+select,
 button {
-  padding: 8px 12px;
-  margin-top: 10px;
-  border: none;
-  background-color: #007acc;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
+    margin: 5px 0;
+    padding: 8px;
+    background: #eed891;
 }
 
-button:hover {
-  background-color: #005f99;
+.error {
+    color: red;
+    margin-top: 10px;
 }
 
-#resumenReserva {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #007700;
+.reserva {
+    background: #f3ee95;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
 }
 
-#listaReservas {
-  margin-top: 15px;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
+.reserva button {
+    margin: 2px;
 }
 
-#contadorReservas {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-#resumenReserva {
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.mensaje-ok {
-  background-color: #d1f0d1;
-  color: #007700;
-}
-
-.mensaje-error {
-  background-color: #fddede;
-  color: #cc0000;
+footer p {
+    font-style: normal;
+    font-size: 70%;
+    font-weight: 600;
+    margin: 0;
+    padding: 20px 20px;
 }

@@ -13,10 +13,19 @@ Este repositorio reúne mis prácticas, desafíos y proyectos realizados durante
 
 ## 📁 ¿Qué vas a encontrar en este repositorio?
 
-- Ejercicios prácticos de JavaScript (funciones, arrays, DOM, eventos, etc.)
-- Proyectos integradores con HTML, CSS y JS
-- Simuladores y pequeñas aplicaciones web
-- Uso progresivo de herramientas como `localStorage`, manejo de eventos y funciones de orden superior
+- Este proyecto es un simulador de reservas para un restaurante, desarrollado como parte de las actividades prácticas del curso de JavaScript. El objetivo fue implementar todos los temas vistos durante la cursada, integrando HTML, CSS y JavaScript para crear una aplicación funcional que permita registrar, mostrar y gestionar reservas.
+
+- Tecnologías utilizadas:
+
+. HTML5 → estructura de la página.
+. CSS3 → estilos y diseño responsivo.
+. JavaScript (ES6) → lógica e interacción con el DOM.
+. LocalStorage → persistencia de datos en el navegador.
+. Fetch API → para cargar datos desde un JSON externo.
+. Inclusión de librería JS (Toastify).
+. Flatpickr → para la selección de fechas.
+. Manejo de errores con try-catch-finally → en operaciones de carga y guardado.
+. Separación en dos archivos JS para diferenciar procesos (main.js y reservas.js).
 
 ## 🚀 En camino hacia el mundo laboral
 
